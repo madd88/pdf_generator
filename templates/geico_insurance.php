@@ -19,6 +19,17 @@ $additional_driver = $data['additionalDriver'] ?? '';
 
 $number = 'IDCOVLTR (08-19)';
 $number2 = 'U4' . $state . ' (06-20)';
+$penalty = [];
+if (($handle = fopen($assetsPath . "/tpl/convertcsv.csv", "r")) !== FALSE) {
+    while (($datas = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        if (mb_strtolower($datas[0]) == mb_strtolower($state)) {
+            $penalty = $datas;
+        }
+    }
+
+    fclose($handle);
+}
+
 
 // Обработка каждой страницы
 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -60,14 +71,14 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
         case 3: // Страница 3
             $pdf->setFont('helvetica', '', 10);
             $pdf->setXY(16, 62);
-            $pdf->MultiCell(0, 10, "Here are your Evidence of Liability Insurance Cards. Two cards have been provided for each vehicle insured. One card must be carried in the proper insured vehicle. Proof of insurance is required to register or renew the registration of your vehicle. A law enforcement officer can ask you to prove that you have liability insurance meeting the basic requirements of California law. A violation of these requirements can result in a fine of up to: $1,000 for the first time; $2,000 for additional times. Also, a judge can have your vehicle impounded. False proof of insurance may result in a fine up to $750 and 30 days in prison", 0, 'L');
+            $pdf->MultiCell(0, 10, "Here are your Evidence of Liability Insurance Cards. Two cards have been provided for each vehicle insured. One card must be carried in the proper insured vehicle. Proof of insurance is required to register or renew the registration of your vehicle. A law enforcement officer can ask you to prove that you have liability insurance meeting the basic requirements of {$state} law. A violation of these requirements can result in a fine of up to: \${$penalty[1]} for the first time; \${$penalty[2]} for additional times. Also, a judge can have your vehicle impounded. False proof of insurance may result in a fine up to \${$penalty[3]} and {$penalty[4]} days in prison", 0, 'L');
             // Первая карточка
             $pdf->setXY(120, 95);
             $pdf->MultiCell(100, 5, "{$name}\n{$address1}\n{$town} {$state} {$zip}", 0, 'L');
 
             $pdf->setFont('helvetica', 'B', 10);
             $pdf->setXY(16, 163);
-            $pdf->Cell(0, 10, "California Evidence of Liability Insurance");
+            $pdf->Cell(0, 10, "{$state} Evidence of Liability Insurance");
 
             $pdf->setFont('helvetica', 'B', 8);
             $pdf->setXY(36, 180);
@@ -110,12 +121,13 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 
             $pdf->setFont('helvetica', '', 6);
             $pdf->setXY(16, 265);
-            $pdf->MultiCell(80, 5, "The coverage provided by this policy meets the minimum requirements of section 16056 or 16500.5 of the California Vehicle Code, minimum liability limits prescribed by law.", 0, 'L');
+            $pdf->MultiCell(80, 5, "The coverage provided by this policy meets the minimum requirements of section {$penalty[5]} or {$penalty[6]} of the {$state} Vehicle Code, minimum liability limits prescribed by law.", 0, 'L');
 
 
             // Вторая карточка
+            $pdf->setFont('helvetica', 'B', 10);
             $pdf->setXY(125, 163);
-            $pdf->Cell(0, 10, "California Evidence of Liability Insurance");
+            $pdf->Cell(0, 10, "{$state} Evidence of Liability Insurance");
 
             $pdf->setFont('helvetica', 'B', 8);
             $pdf->setXY(145, 180);
@@ -158,7 +170,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 
             $pdf->setFont('helvetica', '', 6);
             $pdf->setXY(125, 265);
-            $pdf->MultiCell(80, 5, "The coverage provided by this policy meets the minimum requirements of section 16056 or 16500.5 of the California Vehicle Code, minimum liability limits prescribed by law.", 0, 'L');
+            $pdf->MultiCell(80, 5, "The coverage provided by this policy meets the minimum requirements of section 16056 or 16500.5 of the {$state} Vehicle Code, minimum liability limits prescribed by law.", 0, 'L');
 
 
 
