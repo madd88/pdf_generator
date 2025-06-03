@@ -5,9 +5,6 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 
 $templateFile = $assetsPath . '/tpl/hippo.pdf';
 
-
-
-
 $data = [
     'homeownerName' => $data['homeownerName'] ?? '',
     'homeownerStreet' => $data['homeownerStreet'] ?? '',
