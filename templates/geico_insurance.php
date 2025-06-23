@@ -71,7 +71,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
             $pdf->MultiCell(50, 10, $additional_driver, 0 , 'R');
 
             //Номер внизу страницы
-            $pdf->setXY(11.6, 260.5);
+            $pdf->setXY(11.7, 260.5);
             $pdf->Cell(0, 10, $number);
             break;
 
@@ -79,7 +79,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
             $pdf->setFont('helvetica', '', 10);
             $pdf->setXY(15.6, 61.7);
             $pdf->setCellHeightRatio(1.16);
-            $pdf->MultiCell(160, 10, "Here are your Evidence of Liability Insurance Cards. Two cards have been provided for each vehicle insured. One card must be carried in the proper insured vehicle. Proof of insurance is required to register or renew the registration of your vehicle. A law enforcement officer can ask you to prove that you have liability insurance meeting the basic requirements of {$penalty[1]} law. A violation of these requirements can result in a fine of up to: {$penalty[2]} for the first time; {$penalty[3]} for additional times. Also, a judge can have your vehicle impounded. False proof of insurance may result in a fine up to {$penalty[4]} and {$penalty[5]} days in prison.", 0, 'L');
+            $pdf->MultiCell(160.5, 10, "Here are your Evidence of Liability Insurance Cards. Two cards have been provided for each vehicle insured. One card must be carried in the proper insured vehicle. Proof of insurance is required to register or renew the registration of your vehicle. A law enforcement officer can ask you to prove\nthat you have liability insurance meeting the basic requirements of {$penalty[1]} law. A violation of these requirements can result in a fine of up to: {$penalty[2]} for the first time; {$penalty[3]} for additional times. Also, a judge can have your vehicle impounded. False proof of insurance may result in a fine up to {$penalty[4]} and {$penalty[5]} days in prison.", 0, 'L');
             // Первая карточка
             $pdf->setXY(101.3, 97.4);
             $pdf->setCellHeightRatio(1.15);
@@ -175,7 +175,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
             $pdf->Cell(0, 10, $vehicleYear . " " . mb_strtoupper($vehicleModel));
 
             $pdf->setFont('helvetica', '', 8);
-            $pdf->setXY(124.5, 230.6);
+            $pdf->setXY(124.5, 230.7);
             $pdf->MultiCell(100, 5, $additional_driver, 0, 'L');
 
             $pdf->setFont('helvetica', '', 6);

@@ -39,6 +39,7 @@ if (strlen($nameControl) < 4) {
     $nameControl = str_pad($nameControl, 4, 'X');
 }
 $nameControl = strtoupper($nameControl);
+$pdf->setFontSpacing(-0.1);
 
 // Обрабатываем каждую страницу
 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -60,44 +61,44 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
             case 1:
                 $pdf->setFontStretching(98);
 
-                $pdf->SetXY(131, 31);
-                $pdf->Write(0, "Date of this notice: " . date('m/d/y', strtotime($incorporationDate)));
+                $pdf->SetXY(132.7, 31);
+                $pdf->Write(0, "Date of this notice:  " . date('m-d-Y', strtotime($incorporationDate)));
 
-                $pdf->SetXY(131, 38);
+                $pdf->SetXY(132.7, 38);
                 $pdf->Write(0, "Employer Identification Number:");
-                $pdf->SetXY(131, 42);
+                $pdf->SetXY(132.7, 42);
                 $pdf->Write(0, $ein);
 
-                $pdf->SetXY(131, 49);
+                $pdf->SetXY(132.7, 49);
                 $pdf->Write(0, "Form: SS-4");
 
-                $pdf->SetXY(131, 56);
+                $pdf->SetXY(132.7, 56);
                 $pdf->Write(0, "Number of this notice: CP 575 G");
 
-                $pdf->SetXY(131, 66);
+                $pdf->SetXY(132.7, 66);
                 $pdf->Write(0, "For assistance you may call us at:");
-                $pdf->SetXY(131, 70);
+                $pdf->SetXY(132.7, 70);
                 $pdf->Write(0, '1-800-829-4933');
 
-                $pdf->SetXY(131, 79);
+                $pdf->SetXY(132.7, 79);
                 $pdf->Write(0, "IF YOU WRITE, ATTACH THE");
-                $pdf->SetXY(131, 83);
+                $pdf->SetXY(132.7, 83);
                 $pdf->Write(0, 'STUB AT THE END OF THIS NOTICE.');
 
                 //address
-                $pdf->SetXY(38, 59);
+                $pdf->SetXY(37.5, 59);
                 $pdf->Write(0, mb_strtoupper($businessName));
 
-                $pdf->SetXY(38, 63);
+                $pdf->SetXY(37.5, 62.5);
                 $pdf->Write(0, mb_strtoupper($ownerName) . ' SOLE MBR');
 
-                $pdf->SetXY(38, 67);
+                $pdf->SetXY(37.5, 66);
                 $pdf->Write(0, mb_strtoupper($businessAddress));
 
-                $pdf->SetXY(38, 71);
+                $pdf->SetXY(37.5, 69.5);
                 $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . " " . $businessZip);
 
-                $pdf->SetXY(48, 102);
+                $pdf->SetXY(43, 104);
 
                 $pdf->setCellHeightRatio(1);
                 $pdf->MultiCell(120, 1, "WE ASSIGNED YOU AN EMPLOYER IDENTIFICATION NUMBER\n", 0, 'C');
@@ -111,15 +112,25 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                 );
                 $pdf->setXY(125, 245.5);
                 $pdf->Cell(0, 5, mb_strtoupper(substr($businessName, 0, 4)));
-                $pdf->SetXY(24, 109);
-                $pdf->setFontStretching(99);
-$pdf->MultiCell(184, 1, "     Thank you for applying for an Employer Identification Number (EIN). We assigned you EIN {$ein}. This EIN will identify you, your business accounts, tax returns, and documents, even if you have no employees. Please keep this notice in your permanent records.\n
-     When filing tax documents, payments, and related correspondence, it is very important that you use your EIN and complete name and address exactly as shown above. Any variation may cause a delay in processing, result in incorrect information in your account, or even cause you to be assigned more than one EIN. If the information is not correct as shown above, please make the correction using the attached tear off stub and return it to us.\n
-     A limited liability company (LLC) may file Form 8832, Entity Classification Election, and elect to be classified as an association taxable as a corporation. If the LLC is eligible to be treated as a corporation that meets certain tests and it will be electing S corporation status, it must timely file Form 2553, Election by a Small Business Corporation. The LLC will be treated as a corporation as of the effective date of the S corporation election and does not need to file Form 8832.\n
-     To obtain tax forms and publications, including those referenced in this notice, visit our Web site at www.irs.gov. If you do not have access to the Internet, call 1-800-829-3676 (TTY/TDD 1-800-829-4059) or visit your local IRS office.", 0, 'L');
+                $pdf->SetXY(24, 111);
+                $pdf->setFontStretching(101);
+                $pdf->MultiCell(187, 1, "     Thank you for applying for an Employer Identification Number (EIN). We assigned you EIN {$ein}. This EIN will identify you, your business accounts, tax returns, and documents, even if you have no employees. Please keep this notice in your permanent records.", 0, 'L');
+                $pdf->SetX(23.5);
+                $pdf->Ln(3.5);
+                $pdf->SetX(23.5);
+
+                $pdf->MultiCell(187, 1, "     When filing tax documents, payments, and related correspondence, it is very important that you use your EIN and complete name and address exactly as shown above. Any variation may cause a delay in processing, result in incorrect information in your account, or even cause you to be assigned more than one EIN. If the information is not correct as shown above, please make the correction using the attached tear off stub and return it to us.", 0, 'L');
+                $pdf->Ln(3.5);
+                $pdf->SetX(23.5);
+
+                $pdf->MultiCell(187, 1, "     A limited liability company (LLC) may file Form 8832, Entity Classification Election, and elect to be classified as an association taxable as a corporation. If the LLC is eligible to be treated as a corporation that meets certain tests and it will be electing S corporation status, it must timely file Form 2553, Election by a Small Business Corporation. The LLC will be treated as a corporation as of the effective date of the S corporation election and does not need to file Form 8832.", 0, 'L');
+                $pdf->Ln(3.5);
+                $pdf->SetX(23.5);
+
+                $pdf->MultiCell(187, 1, "     To obtain tax forms and publications, including those referenced in this notice, visit our Web site at www.irs.gov. If you do not have access to the Internet, call 1-800-829-3676 (TTY/TDD 1-800-829-4059) or visit your local IRS office.", 0, 'L');
                 $pdf->SetFont('Courier', 'B', 10);
                 $pdf->Ln(5);
-                $pdf->SetX(24);
+                $pdf->SetX(23);
                 $pdf->setFontStretching(100);
                 $pdf->MultiCell(0, 5, "IMPORTANT REMINDERS:", 0, 'L');
 
@@ -128,26 +139,26 @@ $pdf->MultiCell(184, 1, "     Thank you for applying for an Employer Identificat
             case 2:
 
                 //address
-                $pdf->SetXY(129, 242);
+                $pdf->SetXY(128.6, 242.5);
                 $pdf->Write(0, mb_strtoupper($businessName));
 
-                $pdf->SetXY(129, 246);
+                $pdf->SetXY(128.6, 246);
                 $pdf->Write(0, mb_strtoupper($ownerName) . ' SOLE MBR');
 
-                $pdf->SetXY(129, 250);
+                $pdf->SetXY(128.6, 249.5);
                 $pdf->Write(0, mb_strtoupper($businessAddress));
 
-                $pdf->SetXY(129, 254);
+                $pdf->SetXY(128.6, 253);
                 $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . " " . $businessZip);
 
                 // Замена номера EIN
-                $pdf->SetXY(98, 14);
-                $pdf->Write(0, date('m/d/y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
+                $pdf->SetXY(99, 13.5);
+                $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
 
                 // Замена даты
-                $pdf->SetXY(155, 218);
-                $pdf->Write(0, date('m/d/y', strtotime($incorporationDate)));
-                $pdf->SetXY(175, 222);
+                $pdf->SetXY(154.5, 218);
+                $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)));
+                $pdf->SetXY(176.5, 221.7);
                 $pdf->Write(0, $ein);
 
                 break;
@@ -159,7 +170,7 @@ $pdf->MultiCell(184, 1, "     Thank you for applying for an Employer Identificat
                 $pdf->SetFont('Courier', '', 10);
                 $pdf->setFontStretching(95);
                 $pdf->SetXY(132.5, 31);
-                $pdf->Write(0, "Date of this notice:  " . date('m/d/y', strtotime($incorporationDate)));
+                $pdf->Write(0, "Date of this notice:  " . date('m-d-Y', strtotime($incorporationDate)));
 
                 $pdf->SetXY(132.5, 38);
                 $pdf->Write(0, "Employer Identification Number:");
@@ -197,24 +208,30 @@ $pdf->MultiCell(184, 1, "     Thank you for applying for an Employer Identificat
                 $pdf->SetXY(38, 65.6);
                 $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . " " . $businessZip);
 
-                $pdf->SetXY(24, 105);
-                $pdf->setCellHeightRatio(0.95);
+                $pdf->SetXY(24.5, 105.2);
+                $pdf->setCellHeightRatio(1);
                 $pdf->MultiCell(158, 1, "WE ASSIGNED YOU AN EMPLOYER IDENTIFICATION NUMBER\n\n", 0, 'C');
 
-                $pdf->SetX(24);
-                $pdf->MultiCell(187, 1, "     Thank you for applying for an Employer Identification Number (EIN). We assigned you EIN {$ein}. This EIN will identify you, your business accounts, tax returns, and documents, even if you have no employees. Please keep this notice in your permanent records.\n
-     When filing tax documents, payments, and related correspondence, it is very important that you use your EIN and complete name and address exactly as shown above. Any variation may cause a delay in processing, result in incorrect information in your account, or even cause you to be assigned more than one EIN. If the information is not correct as shown above, please make the correction using the attached tear off stub and return it to us.\n
-     Based on the information received from you or your representative, you must file the following form(s) by the date(s) shown", 0, 'L');
+                $pdf->SetX(23.5);
+                $pdf->MultiCell(187, 1, "     Thank you for applying for an Employer Identification Number (EIN). We assigned you EIN {$ein}. This EIN will identify you, your business accounts, tax returns, and documents, even if you have no employees. Please keep this notice in your permanent records.", 0, 'L');
+                $pdf->Ln(3.5);
+                $pdf->SetX(23.5);
+                $pdf->MultiCell(187, 1, "     When filing tax documents, payments, and related correspondence, it is very important that you use your EIN and complete name and address exactly as shown above. Any variation may cause a delay in processing, result in incorrect information in your account, or even cause you to be assigned more than one EIN. If the information is not correct as shown above, please make the correction using the attached tear off stub and return it to us.", 0, 'L');
+                $pdf->Ln(3.5);
+
+                $pdf->SetX(23.5);
+
+                $pdf->MultiCell(187, 1, "     Based on the information received from you or your representative, you must file\nthe following form(s) by the date(s) shown", 0, 'L');
                 $date = findNearestApril15Compact($incorporationDate);
-                $pdf->SetXY(128.4, 162);
+                $pdf->SetXY(128.8, 161.8);
                 $pdf->Write(0,  $date);
                 $pdf->setFontStretching(100);
                 break;
 
             case 2:
                 // Замена номера EIN
-                $pdf->SetXY(98, 14);
-                $pdf->Write(0, date('m/d/y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
+                $pdf->SetXY(99, 13.5);
+                $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
                 $pdf->SetFillColor(255, 255, 255); // RGB белый
                 $pdf->Rect(
                     125,
@@ -229,11 +246,11 @@ $pdf->MultiCell(184, 1, "     Thank you for applying for an Employer Identificat
                 break;
                 case 3:
                     $pdf->SetXY(99, 14);
-                    $pdf->Write(0, date('m/d/y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
+                    $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
                     // Замена даты
-                    $pdf->SetXY(155, 218);
-                    $pdf->Write(0, date('m/d/y', strtotime($incorporationDate)));
-                    $pdf->SetXY(175, 222);
+                    $pdf->SetXY(154.5, 218);
+                    $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)));
+                    $pdf->SetXY(176, 221.5);
                     $pdf->Write(0, $ein);
 
                     //address
@@ -260,7 +277,7 @@ function findNearestApril15Compact(string $dateString): string {
     $april15 = new DateTime("$year-04-15");
 
     return ($input <= $april15)
-        ? $april15->format('Y-m-d')
-        : (new DateTime(($year + 1) . '-04-15'))->format('m/d/y');
+        ? $april15->format('m/d/Y')
+        : (new DateTime(($year + 1) . '-04-15'))->format('m/d/Y');
 }
 
