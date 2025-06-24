@@ -51,7 +51,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
     $pdf->useTemplate($templateId);
 
     // Устанавливаем шрифт
-    $pdf->SetFont('Courier', '', 10);
+    $pdf->SetFont('Courier', '', 10.418);
     $pdf->SetTextColor(0, 0, 0);
 
     // Заменяем данные в зависимости от страницы и типа документа
@@ -167,71 +167,70 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
         // Обработка для INC
         switch ($pageNo) {
             case 1:
-                $pdf->SetFont('Courier', '', 10);
-                $pdf->setFontStretching(95);
-                $pdf->SetXY(132.5, 31);
+                $pdf->setFontStretching(93.2);
+                $pdf->SetFont('Courier', '', 10.55);
+                $pdf->SetXY(132.7, 30.61);
                 $pdf->Write(0, "Date of this notice:  " . date('m-d-Y', strtotime($incorporationDate)));
 
-                $pdf->SetXY(132.5, 38);
+                $pdf->SetXY(132.7, 37.5);
                 $pdf->Write(0, "Employer Identification Number:");
-                $pdf->SetXY(132.5, 41.8);
+                $pdf->SetXY(132.7, 41.1);
                 $pdf->Write(0, $ein);
 
-                $pdf->SetXY(132.5, 49);
+                $pdf->SetXY(132.7, 48.1);
                 $pdf->Write(0, "Form:  SS-4");
 
-                $pdf->SetXY(132.5, 56);
+                $pdf->SetXY(132.7, 55.3);
                 $pdf->Write(0, "Number of this notice:  CP 575 A");
 
-                $pdf->SetXY(132.5, 66);
+                $pdf->SetXY(132.7, 65.8);
                 $pdf->Write(0, "For assistance you may call us at:");
-                $pdf->SetXY(132.5, 69.8);
+                $pdf->SetXY(132.7, 69.2);
                 $pdf->Write(0, '1-800-829-4933');
 
-                $pdf->SetXY(132.5, 79);
+                $pdf->SetXY(132.7, 79.8);
                 $pdf->Write(0, "IF YOU WRITE, ATTACH THE");
-                $pdf->SetXY(132.5, 82.8);
+                $pdf->SetXY(132.7, 83.4);
                 $pdf->Write(0, 'STUB AT THE END OF THIS NOTICE.');
 
                 //address
-                $pdf->setFontStretching(100);
 
-                $pdf->SetXY(38, 59);
+                $pdf->SetXY(37.5, 58.7);
                 $pdf->Write(0, mb_strtoupper($businessName));
 
                 /*$pdf->SetXY(40, 67);
                 $pdf->Write(0, $ownerName . ' SOLE MBR');*/
 
-                $pdf->SetXY(38, 62.6);
+                $pdf->SetXY(37.5, 62.3);
                 $pdf->Write(0, mb_strtoupper($businessAddress));
 
-                $pdf->SetXY(38, 65.6);
-                $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . " " . $businessZip);
+                $pdf->SetXY(37.5, 65.8);
+                $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . "  " . $businessZip);
 
-                $pdf->SetXY(24.5, 105.2);
-                $pdf->setCellHeightRatio(1);
+                $pdf->SetXY(24.1, 105.1);
+                $pdf->setCellHeightRatio(0.95);
                 $pdf->MultiCell(158, 1, "WE ASSIGNED YOU AN EMPLOYER IDENTIFICATION NUMBER\n\n", 0, 'C');
-
-                $pdf->SetX(23.5);
-                $pdf->MultiCell(187, 1, "     Thank you for applying for an Employer Identification Number (EIN). We assigned you EIN {$ein}. This EIN will identify you, your business accounts, tax returns, and documents, even if you have no employees. Please keep this notice in your permanent records.", 0, 'L');
+                $pdf->SetXY(23.5, 112.1);
+                $pdf->MultiCell(200, 1, "     Thank you for applying for an Employer Identification Number (EIN).  We assigned you\nEIN {$ein}.  This EIN will identify you, your business accounts, tax returns, and\ndocuments, even if you have no employees.  Please keep this notice in your permanent\nrecords.", 0, 'L');
                 $pdf->Ln(3.5);
                 $pdf->SetX(23.5);
-                $pdf->MultiCell(187, 1, "     When filing tax documents, payments, and related correspondence, it is very important that you use your EIN and complete name and address exactly as shown above. Any variation may cause a delay in processing, result in incorrect information in your account, or even cause you to be assigned more than one EIN. If the information is not correct as shown above, please make the correction using the attached tear off stub and return it to us.", 0, 'L');
+                $pdf->MultiCell(187, 1, "     When filing tax documents, payments, and related correspondence, it is very important\nthat you use your EIN and complete name and address exactly as shown above.  Any variation\nmay cause a delay in processing, result in incorrect information in your account, or even\ncause you to be assigned more than one EIN.  If the information is not correct as shown\nabove, please make the correction using the attached tear off stub and return it to us.", 0, 'L');
                 $pdf->Ln(3.5);
 
                 $pdf->SetX(23.5);
 
-                $pdf->MultiCell(187, 1, "     Based on the information received from you or your representative, you must file\nthe following form(s) by the date(s) shown", 0, 'L');
+                $pdf->MultiCell(187, 1, "     Based on the information received from you or your representative, you must file\nthe following form(s) by the date(s) shown.", 0, 'L');
                 $date = findNearestApril15Compact($incorporationDate);
-                $pdf->SetXY(128.8, 161.8);
+                $pdf->SetXY(128.8, 161.7);
                 $pdf->Write(0,  $date);
-                $pdf->setFontStretching(100);
+//                $pdf->setFontStretching(100);
                 break;
 
             case 2:
                 // Замена номера EIN
                 $pdf->SetXY(99, 13.5);
-                $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
+                $pdf->setFontStretching(95);
+                $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . '  '. mb_strtoupper(substr($businessName, 0, 4)) .'  O  9999999999  SS-4');
                 $pdf->SetFillColor(255, 255, 255); // RGB белый
                 $pdf->Rect(
                     125,
@@ -245,26 +244,28 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 
                 break;
                 case 3:
+                    $pdf->setFontStretching(93.2);
+
                     $pdf->SetXY(99, 14);
-                    $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . ' '. mb_strtoupper(substr($businessName, 0, 4)) .' O 9999999999 SS-4');
+                    $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)) . '  '. mb_strtoupper(substr($businessName, 0, 4)) .'  O  9999999999 SS-4');
                     // Замена даты
                     $pdf->SetXY(154.5, 218);
                     $pdf->Write(0, date('m-d-Y', strtotime($incorporationDate)));
-                    $pdf->SetXY(176, 221.5);
+                    $pdf->SetXY(176.5, 221.5);
                     $pdf->Write(0, $ein);
 
                     //address
-                    $pdf->SetXY(129, 242);
+                    $pdf->SetXY(128.75, 242.55);
                     $pdf->Write(0, mb_strtoupper($businessName));
 
                     /*$pdf->SetXY(40, 67);
                     $pdf->Write(0, $ownerName . ' SOLE MBR');*/
 
-                    $pdf->SetXY(129, 245.6);
+                    $pdf->SetXY(128.75, 246.15);
                     $pdf->Write(0, mb_strtoupper($businessAddress));
 
-                    $pdf->SetXY(129, 249.2);
-                    $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . " " . $businessZip);
+                    $pdf->SetXY(128.75, 249.6);
+                    $pdf->Write(0, mb_strtoupper($businessTown) . ", " . mb_strtoupper($businessState) . "  " . $businessZip);
 
                     break;
         }
