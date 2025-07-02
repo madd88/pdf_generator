@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Note - Dr. Sarah Chen</title>
+    <style>
+        :root {
+            --primary: #0466c8;
+            --secondary: #0353a4;
+            --accent: #023e7d;
+            --background: #f8f9fa;
+            --card: #ffffff;
+            --text: #212529;
+            --text-light: #6c757d;
+            --success: #38b000;
+            --warning: #ffb700;
+            --danger: #d90429;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+
+                margin: 20px 0 0 0 !important;
+                padding: 0 !important;
+                width: 100%;
+                min-width: 1000px; /* Минимальная ширина контента */
+
+            background-color: var(--background);
+            color: var(--text);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            min-width: 1100px;
+            width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px; /* Небольшие боковые отступы */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .hospital-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .hospital-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hospital-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .date-container {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background: var(--card);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .date {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .card-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 1rem;
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .patient-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .vitals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .vital-box {
+            text-align: center;
+            padding: 1rem 0.5rem 1rem 0.5rem;
+            border-radius: var(--border-radius);
+            background: rgba(4, 102, 200, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .vital-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .vital-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .vital-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .vital-unit {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: normal;
+            display: inherit;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 250px;
+            position: relative;
+        }
+
+        .medications {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .medications th {
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .medications td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .pill-label {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .active {
+            background-color: rgba(56, 176, 0, 0.1);
+            color: var(--success);
+        }
+
+        .discontinued {
+            background-color: rgba(217, 4, 41, 0.1);
+            color: var(--danger);
+        }
+
+        .dosage {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .diagnosis-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .diagnosis-item:last-child {
+            border-bottom: none;
+        }
+
+        .diagnosis-code {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            padding: 0 25px;
+        }
+
+        .diagnosis-details {
+            flex-grow: 1;
+        }
+
+        .diagnosis-name {
+            font-weight: 500;
+        }
+
+        .diagnosis-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .notes {
+            line-height: 1.8;
+        }
+
+
+
+        .signature {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .stamp {
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transform: rotate(-5deg);
+        }
+
+        .verification-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            background: var(--card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verification-info {
+            flex-grow: 1;
+        }
+
+        .verification-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .verification-steps {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .date-container {
+                text-align: left;
+                width: 100%;
+            }
+
+
+
+
+        }
+
+        .page-break {
+            page-break-after: always;
+            break-after: page;
+            margin: 0;
+            padding: 0;
+            height: 0;
+            visibility: hidden;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        /* Для основного контента */
+        .content-above-footer {
+            padding-bottom: 350px; /* Высота footer-group + отступ */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="hospital-info">
+            <div class="logo"><img src="[logo]" width="40"></div>
+            <div>
+                <div class="hospital-name">[medical name]</div>
+                <div class="hospital-details">[medical address]</div>
+                <div class="hospital-details">Tel: [medical phone] • [medical url]</div>
+            </div>
+        </div>
+        <div class="date-container">
+            <div>Document Generated</div>
+            <div class="date">[generated date]</div>
+        </div>
+    </div>
+    <div class="content-above-footer">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Patient Information</div>
+            </div>
+            <div class="patient-info">
+                <div>
+                    <div class="info-group">
+                        <div class="info-label">Name</div>
+                        <div class="info-value">[Patient Name]</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Date of Birth</div>
+                        <div class="info-value">[DOB]</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Patient ID</div>
+                        <div class="info-value">[ID Number]</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-group">
+                        <div class="info-label">Contact</div>
+                        <div class="info-value">[Phone Number]</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">[Email Address]</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Insurance</div>
+                        <div class="info-value">[Insurance Provider]</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-group">
+                        <div class="info-label">Address</div>
+                        <div class="info-value">[Street Address]</div>
+                        <div class="info-value">[City, State ZIP]</div>
+                    </div>
+                    <div class="info-group">
+                        <div class="info-label">Emergency Contact</div>
+                        <div class="info-value">[Name (Relationship)]</div>
+                        <div class="info-value">[Phone Number Emergency]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">[Vital Signs]</div>
+                </div>
+                <div class="vitals-container">
+                    <div class="vital-box">
+                        <div class="vital-value">[Value1] <span class="vital-unit">[Unit1]</span></div>
+                        <div class="vital-label">[Vital Sign 1]</div>
+                    </div>
+                    <div class="vital-box">
+                        <div class="vital-value">[Value2] <span class="vital-unit">[Unit2]</span></div>
+                        <div class="vital-label">[Vital Sign 2]</div>
+                    </div>
+                    <div class="vital-box">
+                        <div class="vital-value">[Value3] <span class="vital-unit">[Unit3]</span></div>
+                        <div class="vital-label">[Vital Sign 3]</div>
+                    </div>
+                    <div class="vital-box">
+                        <div class="vital-value">[Value4] <span class="vital-unit">[Unit4]</span></div>
+                        <div class="vital-label">[Vital Sign 4]</div>
+                    </div>
+                    <div class="vital-box">
+                        <div class="vital-value">[Value5] <span class="vital-unit">[Unit5]</span></div>
+                        <div class="vital-label">[Vital Sign 5]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">[Key Metrics Trend]</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="glucoseChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Current Medications</div>
+            </div>
+            <table class="medications">
+                <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>[Medication A]</td>
+                    <td class="dosage">[DoseA]</td>
+                    <td>[FrequencyA]</td>
+<!--                    <td>[ActiveA]</td>-->
+                    <td><span class="pill-label [ActiveAClass]">[ActiveA]</span></td>
+                </tr>
+                <tr>
+                    <td>[Medication B]</td>
+                    <td class="dosage">[DoseB]</td>
+                    <td>[FrequencyB]</td>
+                    <td><span class="pill-label [ActiveBClass]">[ActiveB]</span></td>
+                </tr>
+                <tr>
+                    <td>[Medication C]</td>
+                    <td class="dosage">[DoseC]</td>
+                    <td>[FrequencyC]</td>
+                    <td><span class="pill-label [ActiveCClass]">[ActiveC]</span></td>
+                </tr>
+                <tr>
+                    <td>[Medication D]</td>
+                    <td class="dosage">[DoseD]</td>
+                    <td>[FrequencyD]</td>
+                    <td><span class="pill-label [ActiveDClass]">[ActiveD]</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="page-break"></div>
+        <div style="margin-top: 2rem">&nbsp;</div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Diagnoses</div>
+                </div>
+                <div>
+                    <div class="diagnosis-item">
+                        <div class="diagnosis-code">[A00]</div>
+                        <div class="diagnosis-details">
+                            <div class="diagnosis-name">Primary Diagnosis</div>
+                            <div class="diagnosis-date">Initial Diagnosis: [DatePrimary]</div>
+                        </div>
+                    </div>
+                    <div class="diagnosis-item">
+                        <div class="diagnosis-code">[B00]</div>
+                        <div class="diagnosis-details">
+                            <div class="diagnosis-name">Secondary Diagnosis</div>
+                            <div class="diagnosis-date">Initial Diagnosis: [DateSecondary]</div>
+                        </div>
+                    </div>
+                    <div class="diagnosis-item">
+                        <div class="diagnosis-code">[C00]</div>
+                        <div class="diagnosis-details">
+                            <div class="diagnosis-name">Tertiary Diagnosis</div>
+                            <div class="diagnosis-date">Initial Diagnosis: [DateTertiary]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Lab Results</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="labChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Clinical Notes</div>
+            </div>
+            <div class="notes">
+                <p><strong>Chief Complaint:</strong> [Chief Complaint]</p>
+                <p><strong>History of Present Illness:</strong> [History of Present Illness]</p>
+                <p><strong>Examination Findings:</strong> [Examination Findings]
+                </p>
+                <p><strong>Assessment:</strong> [Assessment]</p>
+                <p><strong>Plan:</strong> [Plan]</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-group">
+        <div class="signature">
+            <div class="doctor-info">
+                <div class="doctor-avatar">[avatar]</div>
+                <div>
+                    <div class="info-value">[doctorName]</div>
+                    <div class="info-label">[doctorTitle]</div>
+                    <div class="info-label">Medical License: [doctorLicense]</div>
+                </div>
+            </div>
+            <div class="stamp">ELECTRONICALLY SIGNED<br>[generatedDateTime] PST</div>
+<!--            <div class="stamp">ELECTRONICALLY SIGNED<br>April 3, 2025 • 10:45 AM PST</div>-->
+        </div>
+
+        <div class="verification-container">
+            <div class="qr-code">
+                <img src="/api/placeholder/120/120" alt="Verification QR Code"/>
+            </div>
+            <div class="verification-info">
+                <div class="verification-title">Document Verification</div>
+                <div class="verification-steps">
+                    <p>To verify the authenticity of this medical document:</p>
+                    <p>1. Scan the QR code using the MediCore Health app or any QR scanner</p>
+                    <p>2. Visit verify.medicorehealth.org and enter the Document ID: DCN-2025-04-03-MR19850915</p>
+                    <p>3. Verification will confirm document origin, timestamp, and integrity</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>This document is electronically generated and valid without signature. Contains confidential patient
+                information.</p>
+            <p>MediCore Health System © 2025 • Document ID: DCN-2025-04-03-MR19850915</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Glucose chart
+    const glucoseCtx = document.getElementById('glucoseChart').getContext('2d');
+    const glucoseChart = new Chart(glucoseCtx, {
+        type: 'line',
+        data: {
+            labels: ['November', 'December', 'January', 'February', 'March', 'April'],
+            datasets: [{
+                label: 'Primary Metric',
+                data: [[m1], [m2], [m3], [m4], [m5], [m6]],
+                backgroundColor: 'rgba(4, 102, 200, 0.1)',
+                borderColor: 'rgba(4, 102, 200, 1)',
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgba(4, 102, 200, 1)',
+                pointBorderWidth: 2,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    min: [mmin],
+                    max: [mmax],
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Lab results chart
+    const labCtx = document.getElementById('labChart').getContext('2d');
+    const labChart = new Chart(labCtx, {
+        type: 'bar',
+        data: {
+            labels: ['[mt1]', '[mt2]', '[mt3]', '[mt4]'],
+            datasets: [
+                {
+                    label: 'Previous (6 months ago)',
+                    data: [[p1], [p2], [p3], [p4]],
+                    backgroundColor: 'rgba(217, 4, 41, 0.2)',
+                    borderColor: 'rgba(217, 4, 41, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Current',
+                    data: [[c1], [c2], [c3], [c4]],
+                    backgroundColor: 'rgba(56, 176, 0, 0.2)',
+                    borderColor: 'rgba(56, 176, 0, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            animation: {
+                duration: 1000, // Уменьшенная длительность
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    setTimeout(() => {
+        glucoseChart.resize();
+        labChart.resize();
+    }, 500);
+</script>
+</body>
+</html>

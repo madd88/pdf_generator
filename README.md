@@ -91,6 +91,28 @@ Ein Letter LLC/INC пример запроса
   "ownerName": "CARLY ELIZABETH NUNES"
 }
 ```
+Пример Medical
+
+```json
+{
+  "template": "medical",
+  "name": "Имя Фамилия",
+  "dob": "2000-01-01",
+  "streetAddress": "ул. Примерная, д. 1",
+  "town": "Москва",
+  "state": "МО",
+  "zip": "123456",
+  "phoneNumber": "+7 (999) 123-45-67",
+  "email": "user@example.com",
+  "nameAdd": "Имя Фамилия",
+  "phoneNumberAdd": "+7 (999) 123-45-67",
+  "appointmentDate": "2025-07-15",
+  "cause": "1",
+  "excuseFrom": "Work",
+  "excuseUntil": "2025-07-20",
+  "weight": 75.5
+}
+```
 
 Ответ сервера в json формате
 ```json

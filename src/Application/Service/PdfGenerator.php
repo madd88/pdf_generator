@@ -5,6 +5,8 @@ use App\Domain\Model\GeneratedFile;
 use App\Application\Validator\TemplateValidator;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
+use App\Domain\Repository\ClinicRepository;
+use App\Domain\Repository\DiseasesRepository;
 
 use Exception;
 
@@ -15,18 +17,25 @@ class PdfGenerator
 
     public $assetsPath;
     private $logger;
+    private ClinicRepository $clinicRepository;
+    private DiseasesRepository $diseasesRepository;
 
 
     public function __construct(
         string $templatesPath,
         string $outputPath,
         string $assetsPath,
-        $logger
+        $logger,
+        ClinicRepository $clinicRepository,
+        DiseasesRepository $diseasesRepository
     ) {
         $this->templatesPath = $templatesPath;
         $this->outputPath = $outputPath;
         $this->assetsPath = $assetsPath; // Сохраняем путь
         $this->logger = $logger;
+        $this->clinicRepository = $clinicRepository;
+        $this->diseasesRepository = $diseasesRepository;
+
     }
 
     public function generate(string $templateName, array $data): GeneratedFile
@@ -47,16 +56,18 @@ class PdfGenerator
         $assetsPath = $this->assetsPath;
 
         $pdf = new Fpdi();
-
+        $uid = uniqid();
+        $filename = $uid . '.pdf';
         ob_start();
         require $templateFile;
         ob_end_clean();
-        $uid = uniqid();
-        $filename = $uid . '.pdf';
         $filePath = str_replace('/', DIRECTORY_SEPARATOR, "{$this->outputPath}/{$filename}");
 //        $pdf->Output('F', $filePath);
         $pdfData = $pdf->Output('', 'S'); // 'S' - возврат как строку
-        file_put_contents($filePath, $pdfData);
+        if (!in_array($templateName, ['medical', 'invoice'])) {
+            file_put_contents($filePath, $pdfData);
+        }
+
 
         return new GeneratedFile(
             $uid,

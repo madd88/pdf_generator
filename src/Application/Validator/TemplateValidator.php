@@ -69,6 +69,24 @@ class TemplateValidator
                 'squareFootage' => v::intVal()->min(100),
                 'creationDate' => v::date('Y-m-d'),
                 'constructionType' => v::stringType()->notEmpty(),
+            ],
+            'medical' =>  [
+                'name' => v::stringType()->notEmpty()->setName('Name'),
+                'dob' => v::date('Y-m-d')->notEmpty()->setName('Date of Birth'),
+                'streetAddress' => v::stringType()->notEmpty()->setName('Street Address'),
+                'town' => v::stringType()->notEmpty()->setName('Town'),
+                'state' => v::stringType()->length(2, 2)->notEmpty()->setName('State'),
+                'zip' => v::postalCode('RU')->notEmpty()->setName('ZIP Code'),
+                'phoneNumber' => v::optional(v::phone()),
+                'nameAdd' => v::stringType()->setName('Additional name'),
+                'phoneNumberAdd' => v::optional(v::phone()),
+                'email' => v::optional(v::email()),
+                'appointmentDate' => v::date('Y-m-d')->notEmpty()->setName('Appointment Date'),
+                'cause' => v::stringType()->notEmpty()->setName('Cause'),
+                'excuseFrom' => v::in(['Work', 'Collage'])->notEmpty()->setName('Excuse From'),
+                'excuseUntil' => v::date('Y-m-d')->notEmpty()->setName('Excuse Until'),
+                'weight' => v::positive()->notEmpty()->setName('Weight'),
+                'insuranceProvider' => v::stringType()->setName('Insurance Provider'),
             ]
         ];
     }

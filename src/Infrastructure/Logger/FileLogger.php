@@ -19,9 +19,12 @@ class FileLogger extends AbstractLogger
         LogLevel::DEBUG     => 7,
     ];
 
+    private int $minLogLevel = 7;
+
     public function __construct(string $logFile, string $minLogLevel = LogLevel::DEBUG)
     {
         $this->logFile = $logFile;
+
         $this->minLogLevel = $this->logLevels[$minLogLevel] ?? $this->logLevels[LogLevel::DEBUG];
 
         // Создаем директорию, если не существует

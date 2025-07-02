@@ -1,7 +1,7 @@
 {
   "name": "pdf-microservice/v1",
   "require": {
-    "php": "^8.0",
+    "php": "^8.3",
     "slim/slim": "^4.0",
     "slim/psr7": "^1.0",
     "monolog/monolog": "^2.0",
@@ -12,7 +12,12 @@
     "php-di/slim-bridge": "^3.0",
     "tecnickcom/tcpdf": "^6.10",
     "setasign/fpdi": "^2.6",
-    "dompdf/dompdf": "v3.1.0"
+    "dompdf/dompdf": "v3.1.0",
+    "nesbot/carbon": "^3.10",
+    "symfony/process": "^7.3",
+    "chrome-php/chrome": "v1.14.0",
+    "chrome-php/wrench": "v1.7.1",
+    "ext-sockets": "*"
   },
   "autoload": {
     "psr-4": {

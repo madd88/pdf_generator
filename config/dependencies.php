@@ -8,6 +8,8 @@ use App\Application\Service\QueueManager;
 use App\Application\Controller\GenerateController;
 use App\Application\Controller\FileController;
 use Psr\Container\ContainerInterface;
+use App\Domain\Repository\ClinicRepository;
+use App\Domain\Repository\DiseasesRepository;
 
 $config = require __DIR__ . '/config.php';
 
@@ -42,13 +44,23 @@ return [
         return new FileRepository($c->get('db'));
     },
 
+    ClinicRepository::class => function(ContainerInterface $c) {
+        return new ClinicRepository($c->get('db'));
+    },
+
+    DiseasesRepository::class => function(ContainerInterface $c) {
+        return new DiseasesRepository($c->get('db'));
+    },
+
     // Генератор PDF
     PdfGenerator::class => function(ContainerInterface $c) use ($config) {
         return new PdfGenerator(
             $config['app']['templates_path'],
             $config['app']['pdf_storage'],
             $config['app']['assets_path'], // Передаем путь к ассетам
-            $c->get('logger')
+            $c->get('logger'),
+            $c->get(ClinicRepository::class),
+            $c->get(DiseasesRepository::class),
         );
     },
 
