@@ -114,6 +114,66 @@ Ein Letter LLC/INC пример запроса
 }
 ```
 
+Пример Invoice
+
+```json
+{
+  "template": "invoice",
+  "business.name": "Acme Corporation",
+  "business.address": "123 Business Ave, Suite 100",
+  "business.town": "San Francisco",
+  "business.state": "CA",
+  "business.zip": "94107",
+  "business.email": "contact@acmecorp.com",
+  "business.phone": "(555) 123-4567",
+  "business.einVatId": "",
+  "customer.businessPersonalName": "TechNova Solutions",
+  "customer.officerPersonalName": "Alex Johnson",
+  "customer.address": "456 Innovation Way",
+  "customer.town": "Palo Alto",
+  "customer.state": "CA",
+  "customer.zip": "94301",
+  "customer.shippingAddress": "123 Business Ave, Suite 100",
+  "customer.shippingTown": "San Francisco",
+  "customer.shippingState": "CA",
+  "customer.shippingZip": "94107",
+  "customer.email": "alex@technovasolutions.com",
+  "items": [
+    {
+      "name": "Website Design",
+      "description": "Custom responsive website design including user experience research and mockups",
+      "quantity": 2,
+      "pricePerItem": 100,
+      "discount": 10
+    }
+  ],
+  "invoice.date": "2025-07-02",
+  "invoice.dueDate": "2025-08-02",
+  "invoice.notes": "",
+  "invoice.status": "Unpaid",
+  "invoice.projectReference": "Website Redesign Q2 2025",
+  "paymentMethods": [
+    {
+      "type": "Cash",
+      "description": "desc",
+      "cashDeliveryAddress": "Lenina st., b 110",
+      "cashDeliveryTown": "New York",
+      "cashDeliveryState": "NY",
+      "cashDeliveryZip": "123456",
+      "bankName": "Bank Of America",
+      "accountNumber": "568751657984684984",
+      "routingNumber": "646846511546465464",
+      "account": "TN-2023-01",
+      "cryptoName": "cryptoName",
+      "cryptoAddress": "cryptoAddress",
+      "paymentSite": "paymentSite",
+      "methodName": "methodName",
+      "methodDescription": "methodDescription"
+    }
+  ]
+}
+```
+
 Ответ сервера в json формате
 ```json
 {
