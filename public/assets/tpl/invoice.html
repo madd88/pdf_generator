@@ -512,7 +512,7 @@
             </div>
             <div class="invoice-info">
                 <div class="invoice-label">Invoice</div>
-                <div class="invoice-number">[invoiceNumber]INV-2025-0042
+                <div class="invoice-number">[invoiceNumber]
                 </div>
                 <div class="invoice-date">Date: [invoiceDate]</div>
                 <div class="invoice-date">Due Date: [invoiceDateDue]</div>
@@ -550,7 +550,7 @@
                     </div>
                     <div class="info-group">
                         <div class="info-label">Account</div>
-                        <div class="info-value">[paymentAccount]</div>
+                        <div class="info-value">[customerAccount]</div>
                     </div>
                     <div class="info-group">
                         <div class="info-label">PO Number</div>
@@ -594,36 +594,11 @@
             <div class="section">
                 <div class="section-title">Notes & Payment Methods</div>
                 <div class="notes">
-                    <p>Thank you for your business! This invoice is due within 30 days from the issue date. Please make payment using one of the methods below.</p>
-                    <p>Please include the invoice number in the payment reference.</p>
+                    <p>[notes]</p>
                 </div>
 
                 <div class="payment-methods">
-                    <div class="payment-method">
-                        <div class="payment-icon">B</div>
-                        <div class="payment-details">
-                            <div class="payment-name">Bank Transfer</div>
-                            <div>[bankName]</div>
-                            <div>Acc #: [accountNumber]</div>
-                            <div>Routing: [routingNumber]</div>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">C</div>
-                        <div class="payment-details">
-                            <div class="payment-name">Credit Card</div>
-                            <div>Secure online payment</div>
-                            <div>pay.acmecorp.com</div>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">P</div>
-                        <div class="payment-details">
-                            <div class="payment-name">PayPal</div>
-                            <div>Send to:</div>
-                            <div>payments@acmecorp.com</div>
-                        </div>
-                    </div>
+                    [paymentMethods]
                 </div>
             </div>
 

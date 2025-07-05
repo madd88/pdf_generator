@@ -19,6 +19,7 @@ $app = AppFactory::create();
 // Регистрация маршрутов
 $app->post('/generate', [\App\Application\Controller\GenerateController::class, 'handle']);
 $app->get('/files/{id}', [\App\Application\Controller\FileController::class, 'getFile']);
+$app->get('/invoice/{id}', [\App\Application\Controller\InvoiceController::class, 'getInvoice']);
 
 // Middleware
 $app->addBodyParsingMiddleware(); // Для обработки JSON

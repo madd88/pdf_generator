@@ -118,7 +118,8 @@ Ein Letter LLC/INC пример запроса
 
 ```json
 {
-  "template": "invoice",
+  "template" : "invoice",
+  "notes": "<p>Thank you for your business!</p> <p>This invoice is due within 30 days from the issue date. Pleasemake payment using one of the methodsbelow.Please include the invoice number in the payment eference</p>",
   "business.name": "Acme Corporation",
   "business.address": "123 Business Ave, Suite 100",
   "business.town": "San Francisco",
@@ -138,39 +139,62 @@ Ein Letter LLC/INC пример запроса
   "customer.shippingState": "CA",
   "customer.shippingZip": "94107",
   "customer.email": "alex@technovasolutions.com",
+  "customer.account": "TN-2023-01",
   "items": [
     {
       "name": "Website Design",
       "description": "Custom responsive website design including user experience research and mockups",
       "quantity": 2,
-      "pricePerItem": 100,
+      "pricePerItem": 1000.0,
       "discount": 10
+    },
+    {
+      "name": "Website Backend",
+      "description": "Custom responsive website design including user experience research and mockups",
+      "quantity": 1,
+      "pricePerItem": 100.0,
+      "discount": 5
+    },
+    {
+      "name": "Website Backend",
+      "description": "Custom responsive website design including user experience research and mockups",
+      "quantity": 1,
+      "pricePerItem": 100.0,
+      "discount": 5
+    },
+    {
+      "name": "Website Backend",
+      "description": "Custom responsive website design including user experience research and mockups",
+      "quantity": 1,
+      "pricePerItem": 100.0,
+      "discount": 5
     }
   ],
   "invoice.date": "2025-07-02",
   "invoice.dueDate": "2025-08-02",
   "invoice.notes": "",
-  "invoice.status": "Unpaid",
+  "invoice.status": "Paid",
   "invoice.projectReference": "Website Redesign Q2 2025",
-  "paymentMethods": [
-    {
-      "type": "Cash",
-      "description": "desc",
-      "cashDeliveryAddress": "Lenina st., b 110",
-      "cashDeliveryTown": "New York",
-      "cashDeliveryState": "NY",
-      "cashDeliveryZip": "123456",
-      "bankName": "Bank Of America",
-      "accountNumber": "568751657984684984",
-      "routingNumber": "646846511546465464",
-      "account": "TN-2023-01",
-      "cryptoName": "cryptoName",
-      "cryptoAddress": "cryptoAddress",
-      "paymentSite": "paymentSite",
-      "methodName": "methodName",
-      "methodDescription": "methodDescription"
-    }
-  ]
+  "paymentTerms": "Net 30",
+  "poNumber": "PO-TN-2025-123",
+  "paymentMethods" : [{
+    "type": ["Cash", "Zelle", "Crypto"],
+    "description": "Office payment",
+    "cashDeliveryAddress": "Lenina st., b 110",
+    "cashDeliveryTown": "New York",
+    "cashDeliveryState": "NY",
+    "cashDeliveryZip": "123456",
+    "bankName": "Bank Of America",
+    "accountNumber": "123",
+    "routingNumber": "321",
+    "account": "9516516161566165",
+    "cryptoName": "cryptoJD",
+    "cryptoAddress": "crypto.cr",
+    "paymentSite": "payme.com",
+    "methodName": "methodName",
+    "methodDescription": "methodDescription"
+  }]
+
 }
 ```
 
@@ -210,3 +234,26 @@ Ein Letter LLC/INC пример запроса
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | id файла |
 | `url`      | `string` | ссылка на файл |
+
+#### Get invoice
+
+```http
+  GET /invoice/${id}
+```
+
+| Parameter | Type     | Description                        |
+| :-------- | :------- |:-----------------------------------|
+| `id`      | `string` | **Required**. Invoice ID xxxx-xxxx |
+
+Возвращает json
+```json
+{
+    "id": "683cd9df5065a",
+    "url": "http://host1880171.hostland.pro/generated/683cd9df5065a.pdf"
+}
+```
+| Parameter  | Type     | Description    |
+|:-----------| :------- |:---------------|
+| `id`       | `string` | Invoice ID     |
+| `file_url` | `string` | ссылка на файл |
+| `data`     | `string` | Данные         |

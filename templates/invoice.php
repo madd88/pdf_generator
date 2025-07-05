@@ -116,11 +116,15 @@ $taxProc = $tax['tax']['rate']*100;
 $taxAmount = $tax['tax']['amount_to_collect'];
 $total = $subtotal - $discount + $taxAmount;
 
+
 $items .= '</tbody>
                     </table>';
 
+$ext_id = $this->invoiceRepository->generateExtId(date('Y'));
+$year = date('Y');
 
 $placeholders = [
+    'notes' => $data['notes'],
     'businessLogo' => '',
     'businessName' => $data['business.name'],
     'businessAddress' => $data['business.address'],
@@ -129,7 +133,7 @@ $placeholders = [
     'businessZip' => $data['business.zip'],
     'businessEmail' => $data['business.email'],
     'business.phone' => $data['business.phone'],
-    'invoiceNumber' => $data['invoice.number'],
+    'invoiceNumber' => "INV-{$year}-{$ext_id}",
     'invoiceDate' => date('F j, Y', strtotime($data['invoice.date'])),
     'invoiceDateDue' => date('F j, Y', strtotime($data['invoice.dueDate'])),
     'invoiceStatusClass' => mb_strtolower($data['invoice.status']),
@@ -141,9 +145,10 @@ $placeholders = [
     'customerState' => $data['customer.state'],
     'customerZip' => $data['customer.zip'],
     'customerEmail' => $data['customer.email'],
-    'paymentTerms' => 'Net 30',
+    'customerAccount' => $data['customer.account'],
+    'paymentTerms' => $data['paymentTerms'],
     'paymentAccount' => $data['paymentMethods'][0]['account'],
-    'paymentPoNumber' => 'PO-TN-2025-123',
+    'paymentPoNumber' => $data['poNumber'],
     'paymentReference' => $data['invoice.projectReference'],
     'items' => $items,
     'Subtotal' => number_format($subtotal),
@@ -155,9 +160,84 @@ $placeholders = [
     'bankName' => $data['paymentMethods'][0]['bankName'],
     'accountNumber' => $data['paymentMethods'][0]['accountNumber'],
     'routingNumber' => $data['paymentMethods'][0]['routingNumber'],
+    'paymentSite' => $data['paymentMethods'][0]['paymentSite'],
+    'cryptoName' => $data['paymentMethods'][0]['cryptoName'],
+    'cryptoAddress' => $data['paymentMethods'][0]['cryptoAddress'],
+    'methodName' => $data['paymentMethods'][0]['methodName'],
+    'methodDescription' => $data['paymentMethods'][0]['methodDescription'],
     'taxId' => $uid,
 ];
 
+foreach ($data['paymentMethods'][0]['type'] as $paymentMethod) {
+    switch ($paymentMethod) {
+        case 'Cash':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">C</div>
+                        <div class="payment-details">
+                            <div class="payment-name">Cash</div>
+                            <div>'.$data['paymentMethods'][0]['cashDeliveryAddress'].'</div>
+                            <div>'.$data['paymentMethods'][0]['cashDeliveryTown'].', '.$data['paymentMethods'][0]['cashDeliveryState'].' '.$data['paymentMethods'][0]['cashDeliveryZip'].'</div>
+                        </div>
+                    </div>';
+            break;
+        case 'creditCard':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">C</div>
+                        <div class="payment-details">
+                            <div class="payment-name">Credit Card</div>
+                            <div>Secure online payment</div>
+                            <div>'.$data['paymentMethods'][0]['paymentSite'].'</div>
+                        </div>
+                    </div>';
+            break;
+        case 'BankTransfer':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">B</div>
+                        <div class="payment-details">
+                            <div class="payment-name">Bank Transfer</div>
+                            <div>'.$data['paymentMethods'][0]['bankName'].'</div>
+                            <div>Acc #: '.$data['paymentMethods'][0]['accountNumber'].'</div>
+                            <div>Routing: '.$data['paymentMethods'][0]['routingNumber'].'</div>
+                        </div>
+                    </div>';
+            break;
+        case 'Crypto':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">C</div>
+                        <div class="payment-details">
+                            <div class="payment-name">Crypto</div>
+                            <div>Name: ' . $data['paymentMethods'][0]['cryptoName'] . '</div>
+                            <div>Address: ' . $data['paymentMethods'][0]['cryptoAddress'] . '</div>
+                        </div>
+                    </div>';
+            break;
+        case 'Other':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">C</div>
+                        <div class="payment-details">
+                            <div class="payment-name">Other</div>
+                            <div>' . $data['paymentMethods'][0]['methodName'] . '</div>
+                            <div>' . $data['paymentMethods'][0]['methodDescription'] . '</div>
+                        </div>
+                    </div>';
+            break;
+        case 'Paypal':
+        case 'Zelle':
+        case 'Venmo':
+        case 'CashApp':
+            $placeholders['paymentMethods'] .= '<div class="payment-method">
+                        <div class="payment-icon">'.$paymentMethod[0].'</div>
+                        <div class="payment-details">
+                            <div class="payment-name">'. $paymentMethod .'</div>
+                            <div>Email or account nick: ' . $data['paymentMethods'][0]['account'] . '</div>
+                        </div>
+                    </div>';
+            break;
+
+    }
+}
+
+$invoiceData = $placeholders;
 
 
 function mapping(array $targetData): array {

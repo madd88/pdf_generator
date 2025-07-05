@@ -3,10 +3,12 @@ namespace App\Application\Service;
 
 use App\Domain\Model\GeneratedFile;
 use App\Application\Validator\TemplateValidator;
+use App\Domain\Model\Invoice;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use setasign\Fpdi\PdfReader\PageBoundaries;
 use App\Domain\Repository\ClinicRepository;
 use App\Domain\Repository\DiseasesRepository;
+use App\Domain\Repository\InvoiceRepository;
 
 use Exception;
 
@@ -19,6 +21,7 @@ class PdfGenerator
     private $logger;
     private ClinicRepository $clinicRepository;
     private DiseasesRepository $diseasesRepository;
+    private InvoiceRepository $invoiceRepository;
 
 
     public function __construct(
@@ -27,7 +30,8 @@ class PdfGenerator
         string $assetsPath,
         $logger,
         ClinicRepository $clinicRepository,
-        DiseasesRepository $diseasesRepository
+        DiseasesRepository $diseasesRepository,
+        InvoiceRepository $invoiceRepository
     ) {
         $this->templatesPath = $templatesPath;
         $this->outputPath = $outputPath;
@@ -35,6 +39,7 @@ class PdfGenerator
         $this->logger = $logger;
         $this->clinicRepository = $clinicRepository;
         $this->diseasesRepository = $diseasesRepository;
+        $this->invoiceRepository = $invoiceRepository;
 
     }
 
@@ -66,6 +71,10 @@ class PdfGenerator
         $pdfData = $pdf->Output('', 'S'); // 'S' - возврат как строку
         if (!in_array($templateName, ['medical', 'invoice'])) {
             file_put_contents($filePath, $pdfData);
+        }
+        if ($templateName == 'invoice') {
+            $invoice = new Invoice((int)$ext_id, (int)$year, $invoiceData, $uid);
+            $this->invoiceRepository->save($invoice);
         }
 
 

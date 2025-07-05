@@ -7,9 +7,11 @@ use App\Application\Service\PdfGenerator;
 use App\Application\Service\QueueManager;
 use App\Application\Controller\GenerateController;
 use App\Application\Controller\FileController;
+use App\Application\Controller\InvoiceController;
 use Psr\Container\ContainerInterface;
 use App\Domain\Repository\ClinicRepository;
 use App\Domain\Repository\DiseasesRepository;
+use App\Domain\Repository\InvoiceRepository;
 
 $config = require __DIR__ . '/config.php';
 
@@ -52,6 +54,10 @@ return [
         return new DiseasesRepository($c->get('db'));
     },
 
+    InvoiceRepository::class => function(ContainerInterface $c) {
+        return new InvoiceRepository($c->get('db'));
+    },
+
     // Генератор PDF
     PdfGenerator::class => function(ContainerInterface $c) use ($config) {
         return new PdfGenerator(
@@ -61,6 +67,7 @@ return [
             $c->get('logger'),
             $c->get(ClinicRepository::class),
             $c->get(DiseasesRepository::class),
+            $c->get(InvoiceRepository::class),
         );
     },
 
@@ -89,6 +96,13 @@ return [
             $c->get(FileRepository::class),
             $config['app']['base_url'],
             $config['app']['pdf_storage_relative'] // Добавим новый параметр
+        );
+    },
+    // Контроллер счетов
+    InvoiceController::class => function(ContainerInterface $c) use ($config) {
+        return new InvoiceController(
+            $c->get(InvoiceRepository::class),
+            $config['app']['base_url'],
         );
     },
 ];
